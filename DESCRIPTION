@@ -1,0 +1,9 @@
+Package: gama
+Title: gama - adjustment of a geodetic free network 
+Version: 0.7
+Author: Marius Hauglin
+Maintainer: Marius Hauglin <marius.hauglin@gmail.com>
+Description: Run adjustment of a geodetic free network using the gama-local tool from the GNU gama project.
+Depends: R (>= 3.0.0)
+License: GPL3
+LazyData: true
