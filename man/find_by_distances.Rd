@@ -4,7 +4,7 @@
 \alias{find_by_distances}
 \title{find_by_distances}
 \usage{
-find_by_distances(x1, y1, x2, y2, dist1, dist2)
+find_by_distances(x1, y1, x2, y2, dist1, dist2, return_circles = FALSE)
 }
 \arguments{
 \item{x1}{numeric; x coordinate of the first known point.}
@@ -18,9 +18,13 @@ find_by_distances(x1, y1, x2, y2, dist1, dist2)
 \item{dist1}{numeric; distance to the first known point.}
 
 \item{dist2}{numeric; distance to the second known point.}
+
+\item{return_circles}{logical; if true the two circles is also returned.}
 }
 \value{
-coordinates of the two possible positions
+1) SpatialPoints with the coordinates of the two possible positions,
+or 2) a list with two objects: The coordinates of the two points, and
+a SpatialPolygons object with the two circles.
 }
 \description{
 find the two possible positions of one unknown point using the distances to two known points

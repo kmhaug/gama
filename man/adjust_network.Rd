@@ -11,14 +11,15 @@ adjust_network(fixed, obs, output = NA)
 
 \item{obs}{data.frame; giving the measured distance and bearing to the known and unknown points.}
 
-\item{output}{optional filename for the output from gama-local.}
+\item{output}{optional filename for the output from gama-local. Some info from the R-package will
+be added. No information from gama-local will be removed.}
 }
 \value{
 a data.frame with the coordinates for all the points in the network, including the known points.
 Optionally a file with the output from the adjustment in gama-local (adjustment errors etc.).
 }
 \description{
-run adjustment of a geodetic free network
+run adjustment of a geodetic free network, using the GNU gama library.
 }
 \note{
 the input coordinates of the known points should be formated as a three-column data.frame

@@ -2,6 +2,7 @@
 
 export(adjust_network)
 export(find_by_distances)
+importFrom(maptools,spRbind)
 importFrom(rgeos,gBuffer)
 importFrom(rgeos,gIntersection)
 importFrom(sp,Line)
@@ -9,3 +10,4 @@ importFrom(sp,Lines)
 importFrom(sp,SpatialLines)
 importFrom(sp,SpatialPoints)
 importFrom(sp,coordinates)
+importFrom(sp,spChFIDs)

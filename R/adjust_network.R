@@ -1,10 +1,11 @@
 #' adjust_network
 #' 
-#' run adjustment of a geodetic free network
+#' run adjustment of a geodetic free network, using the GNU gama library.
 #'
 #' @param fixed data.frame; giving the coordinates to the fixed (known) points in the network.
 #' @param obs data.frame; giving the measured distance and bearing to the known and unknown points.
-#' @param output optional filename for the output from gama-local.
+#' @param output optional filename for the output from gama-local. Some info from the R-package will
+#' be added. No information from gama-local will be removed.
 #'
 #' @return a data.frame with the coordinates for all the points in the network, including the known points.
 #' Optionally a file with the output from the adjustment in gama-local (adjustment errors etc.).
@@ -45,7 +46,7 @@ adjust_network<-function(fixed,obs,output=NA){
 xml_file<-.write_xml(knownp=fixed,obs=obs)
 
 
-# output in another temp file
+# output in another (temp) file
 if (is.na(output)) output<-paste0(tempfile(),'.txt')	
 
 
@@ -67,11 +68,11 @@ repeat{
 	id<-outp[i]
 	i<-i+1
 	x<-unlist(strsplit(outp[i],' '))
-	x<-x[x != ""][3]
+	x<-x[x != ""][5]
 	
 	i<-i+1
 	y<-unlist(strsplit(outp[i],' '))
-	y<-y[y != ""][3]
+	y<-y[y != ""][5]
 	
 	
 	res<-rbind(res,data.frame(id=id,x=x,y=y))
@@ -83,6 +84,31 @@ repeat{
 res<-rbind(res,fixed)
 res$x<-as.numeric(res$x)
 res$y<-as.numeric(res$y)
+
+
+# if permanent outfile, add info from R-package gama
+if(!out_temp){
+	
+	fConn <- file(output, 'r+')
+	Lines <- readLines(fConn)
+	rgama_pretext<-paste('R-package gama version',packageVersion("gama"),'\n',
+			R.Version()$version.string,'\n**************************************\n\n')
+	outtext<-c(rgama_pretext, Lines, sep='\n')
+	writeLines(outtext,con = fConn)
+	
+	writeLines('\n\nR gama inputs:\n**************\n',con = fConn)
+	writeLines('\nknown points:\n',con = fConn)
+	capture.output(known,file=fConn)
+	writeLines('\n\nobs points:\n',con = fConn)
+	capture.output(obs,file=fConn)
+	
+	lastline<-paste('\n\nThis file was created by R gama,',date())
+	writeLines(lastline,con = fConn)
+	
+	close (fConn)
+	
+}
+
 
 
 }, finally={
